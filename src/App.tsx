@@ -42,8 +42,12 @@ const pageMeta: Record<string, { title: string; description: string }> = {
   '/services': { title: 'Detailing Services & Prices | Beaufort, SC | Legendary', description: 'Compare interior, exterior and complete mobile detailing packages with clear size-based pricing in Beaufort, Port Royal and Lady’s Island, SC.' },
   '/about': { title: 'About Legendary Mobile Detailing | Beaufort, SC', description: 'Get to know Legendary Mobile Detailing: careful work, clear pricing and convenient service at your home or workplace in Beaufort County, SC.' },
   '/service-area': { title: 'Mobile Detailing Service Area | Beaufort County, SC', description: 'Mobile car detailing in Beaufort, Port Royal and Lady’s Island, South Carolina. See where Legendary Mobile Detailing comes to you.' },
+  '/gallery': { title: 'Before & After Detailing Gallery | Legendary Mobile Detailing', description: 'See before and after mobile detailing transformations. Browse interior and exterior details from Legendary Mobile Detailing in Beaufort County, SC.' },
   '/quote': { title: 'Request a Detailing Quote | Beaufort, SC | Legendary', description: 'Contact Legendary Mobile Detailing for an interior, exterior or complete detail quote in Beaufort, Port Royal and Lady’s Island, SC.' },
 }
+
+const beforePhotoFiles = import.meta.glob<string>('../gallery_photos/car*-before.{avif,gif,jpg,jpeg,png,webp}', { eager: true, query: '?url', import: 'default' })
+const afterPhotoFiles = import.meta.glob<string>('../gallery_photos/car*-after.{avif,gif,jpg,jpeg,png,webp}', { eager: true, query: '?url', import: 'default' })
 
 const currentPath = window.location.pathname.replace(/\/$/, '') || '/'
 
@@ -65,7 +69,7 @@ function PageMeta({ path }: { path: string }) {
 
 function Header({ path }: { path: string }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const links = [['/services', 'Services & pricing'], ['/about', 'Our approach'], ['/service-area', 'Service area']]
+  const links = [['/services', 'Services & pricing'], ['/gallery', 'Gallery'], ['/about', 'Our approach'], ['/service-area', 'Service area']]
   return <>
     <div className="announcement"><span className="announcement-star">✳</span> Mobile detailing in Beaufort, Port Royal &amp; Lady’s Island <a href="/services">View pricing <Arrow /></a></div>
     <header className="header">
@@ -80,7 +84,7 @@ function Header({ path }: { path: string }) {
 }
 
 function Footer() {
-  return <footer className="footer"><a href="/" className="brand footer-brand"><img className="brand-logo" src="/legendary-mobile-detailing-logo.png" alt="Legendary Mobile Detailing" /></a><span>Mobile detailing in Beaufort, SC.</span><div className="footer-links"><a href="/services">Services &amp; pricing</a><a href="/service-area">Service area</a><a href="/quote">Request a quote</a></div><small className="copyright">© 2026 Legendary Mobile Detailing</small></footer>
+  return <footer className="footer"><a href="/" className="brand footer-brand"><img className="brand-logo" src="/legendary-mobile-detailing-logo.png" alt="Legendary Mobile Detailing" /></a><span>Mobile detailing in Beaufort, SC.</span><div className="footer-links"><a href="/services">Services &amp; pricing</a><a href="/gallery">Gallery</a><a href="/service-area">Service area</a><a href="/quote">Request a quote</a></div><small className="copyright">© 2026 Legendary Mobile Detailing</small></footer>
 }
 
 function Hero() {
@@ -127,8 +131,57 @@ function BookingPage() {
   return <main className="page-main"><section className="booking booking-page"><div className="booking-orb orb-one" /><div className="booking-orb orb-two" /><div className="eyebrow"><span /> THE NEXT STEP</div><h1 className="page-title">Ready for a<br /><em>fresh start?</em></h1><p>Call or text <a href="tel:+18034235698">(803) 423-5698</a> or email <a href="mailto:legendarydetailing843@gmail.com">legendarydetailing843@gmail.com</a> to request a detail in Beaufort, Port Royal or Lady’s Island.</p><div className="booking-actions"><a className="button button-accent" href="tel:+18034235698">Call or text <Arrow /></a><a className="button booking-email" href="mailto:legendarydetailing843@gmail.com?subject=Mobile%20detailing%20quote%20request">Email for a quote <Arrow /></a></div><small className="booking-footnote">Share your vehicle, service and preferred time when you get in touch.</small></section></main>
 }
 
+const vehicleDetails: Record<string, { vehicle: string; service: string; detail: string }> = {
+  car01: { vehicle: 'Sport sedan', service: 'Interior refresh', detail: 'A brighter cabin with clean seats, mats and trim.' },
+  car02: { vehicle: 'Family SUV', service: 'Interior deep clean', detail: 'A careful reset for everyday family use.' },
+  car03: { vehicle: 'Pickup truck', service: 'Exterior detail', detail: 'A hand-washed finish with renewed gloss.' },
+  car04: { vehicle: 'Performance coupe', service: 'Full detail', detail: 'A polished finish, inside and out.' },
+}
+
+function collectGalleryVehicles() {
+  const pairs = new Map<string, { before?: string; after?: string }>()
+  for (const [path, url] of [...Object.entries(beforePhotoFiles), ...Object.entries(afterPhotoFiles)]) {
+    const match = path.match(/car(\d+)-(before|after)\.[^/]+$/i)
+    if (!match) continue
+    const id = `car${match[1]}`
+    const pair = pairs.get(id) ?? {}
+    pair[match[2].toLowerCase() as 'before' | 'after'] = url
+    pairs.set(id, pair)
+  }
+  if (pairs.size === 0) for (const id of ['car01', 'car02', 'car03', 'car04']) pairs.set(id, {})
+  return [...pairs.entries()].sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true })).map(([id, photos]) => ({
+    id,
+    before: photos.before,
+    after: photos.after,
+    ...(vehicleDetails[id] ?? { vehicle: `Vehicle ${Number(id.slice(3))}`, service: 'Mobile detail', detail: 'Before and after photos from a recent detail.' }),
+  }))
+}
+
+const galleryVehicles = collectGalleryVehicles()
+
+function GalleryGrid() {
+  const [revealed, setRevealed] = useState<Record<string, boolean>>({})
+  return <div className="gallery-grid">{galleryVehicles.map((item, index) => <article className="gallery-card" key={item.id}>
+    <button className={`gallery-pair${revealed[item.id] ? ' is-revealed' : ''}`} type="button" onClick={() => setRevealed(current => ({ ...current, [item.id]: !current[item.id] }))} aria-pressed={Boolean(revealed[item.id])} aria-label={`${item.vehicle} ${item.service} before and after. Tap to ${revealed[item.id] ? 'show before' : 'show after'}.`}>
+      {item.before ? <img className="gallery-before" src={item.before} alt={`${item.vehicle} before ${item.service.toLowerCase()}`} loading={index < 2 ? 'eager' : 'lazy'} /> : <span className="gallery-placeholder gallery-before"><strong>Before photo</strong><small>{item.id}-before.webp</small><i>Photo pair ready when you are</i></span>}
+      {item.after ? <img className="gallery-after" src={item.after} alt="" aria-hidden="true" loading={index < 2 ? 'eager' : 'lazy'} /> : <span className="gallery-placeholder gallery-after" aria-hidden="true"><strong>After photo</strong><small>{item.id}-after.webp</small><i>Add the matching after photo</i></span>}
+      <span className="gallery-label label-before">Before</span><span className="gallery-label label-after">After</span>
+      <span className="gallery-hint">Hover or tap to compare</span>
+    </button>
+    <div className="gallery-card-copy"><div><span>{item.vehicle}</span><span>{item.service}</span></div><p>{item.detail}</p></div>
+  </article>)}</div>
+}
+
+function GalleryFeature() {
+  return <section className="gallery-feature section"><div className="gallery-heading"><div><div className="eyebrow dark"><span /> BEFORE &amp; AFTER</div><h2>Care that shows<br /><em>in every detail.</em></h2></div><p>Hover or tap a photo to compare each finish. We’ll add real transformations here as photos are collected.</p></div><GalleryGrid /><a className="button button-accent gallery-more" href="/gallery">View the full gallery <Arrow /></a></section>
+}
+
+function GalleryPage() {
+  return <main className="page-main"><section className="gallery-page section"><div className="eyebrow dark"><span /> THE FINISH, SIDE BY SIDE</div><h1 className="page-title">A little care.<br /><em>A big difference.</em></h1><p className="gallery-lede">Compare each vehicle before and after its detail. Add photo pairs to the gallery_photos folder and they’ll appear here automatically.</p><GalleryGrid /><p className="gallery-back"><a className="text-link" href="/services">Explore our detailing packages <Arrow /></a></p></section></main>
+}
+
 function HomePage() {
-  return <main><Hero /><TrustStrip /><section className="home-intro section"><div className="eyebrow dark"><span /> MOBILE DETAILING, MADE SIMPLE</div><h2>Thoughtful care<br /><em>comes to you.</em></h2><p>From a fresh cabin to a protected exterior, get a detail that fits your car and your day. Serving Beaufort, Port Royal and Lady’s Island.</p><a className="button button-accent" href="/services">See services &amp; pricing <Arrow /></a><div className="home-links"><a href="/about">Get to know our approach <Arrow /></a><a href="/service-area">Explore our service area <Arrow /></a></div></section><ApproachFeature /></main>
+  return <main><Hero /><TrustStrip /><section className="home-intro section"><div className="eyebrow dark"><span /> MOBILE DETAILING, MADE SIMPLE</div><h2>Thoughtful care<br /><em>comes to you.</em></h2><p>From a fresh cabin to a protected exterior, get a detail that fits your car and your day. Serving Beaufort, Port Royal and Lady’s Island.</p><a className="button button-accent" href="/services">See services &amp; pricing <Arrow /></a><div className="home-links"><a href="/about">Get to know our approach <Arrow /></a><a href="/service-area">Explore our service area <Arrow /></a></div></section><GalleryFeature /><ApproachFeature /></main>
 }
 
 function NotFoundPage() {
@@ -137,5 +190,5 @@ function NotFoundPage() {
 
 export default function App() {
   const page = pageMeta[currentPath] ? currentPath : ''
-  return <><PageMeta path={page} /><Header path={page} />{page === '/' ? <HomePage /> : page === '/services' ? <ServicesPage /> : page === '/about' ? <main className="page-main"><ApproachFeature /><section className="about-copy section"><div className="eyebrow dark"><span /> LEGENDARY MOBILE DETAILING</div><h1 className="page-title">Care you can<br /><em>feel.</em></h1><p>We bring thoughtful interior and exterior detailing to your driveway or workplace around Beaufort County. Our approach is simple: careful work, clear prices, and no surprise add-ons.</p><a className="button button-accent" href="/quote">Request a detail <Arrow /></a></section></main> : page === '/service-area' ? <ServiceAreaPage /> : page === '/quote' ? <BookingPage /> : <NotFoundPage />}<Footer /></>
+  return <><PageMeta path={page} /><Header path={page} />{page === '/' ? <HomePage /> : page === '/services' ? <ServicesPage /> : page === '/about' ? <main className="page-main"><ApproachFeature /><section className="about-copy section"><div className="eyebrow dark"><span /> LEGENDARY MOBILE DETAILING</div><h1 className="page-title">Care you can<br /><em>feel.</em></h1><p>We bring thoughtful interior and exterior detailing to your driveway or workplace around Beaufort County. Our approach is simple: careful work, clear prices, and no surprise add-ons.</p><a className="button button-accent" href="/quote">Request a detail <Arrow /></a></section></main> : page === '/service-area' ? <ServiceAreaPage /> : page === '/gallery' ? <GalleryPage /> : page === '/quote' ? <BookingPage /> : <NotFoundPage />}<Footer /></>
 }
