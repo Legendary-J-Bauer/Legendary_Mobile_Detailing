@@ -38,9 +38,9 @@ const addOns = [
 ]
 
 const pageMeta: Record<string, { title: string; description: string }> = {
-  '/': { title: 'Mobile Car Detailing in Beaufort, SC | Legendary', description: 'Legendary Mobile Detailing brings thoughtful mobile car detailing to Beaufort, Port Royal and Lady’s Island, South Carolina.' },
+  '/': { title: 'Mobile Detailing in Beaufort, SC | Legendary', description: 'Mobile detailing for Beaufort, Port Royal and Lady’s Island. Explore services and clear pricing from Legendary Mobile Detailing.' },
   '/services': { title: 'Detailing Services & Prices | Beaufort, SC | Legendary', description: 'Compare interior, exterior and complete mobile detailing packages with clear size-based pricing in Beaufort, Port Royal and Lady’s Island, SC.' },
-  '/about': { title: 'About Legendary Mobile Detailing | Beaufort, SC', description: 'Get to know Legendary Mobile Detailing: careful work, clear pricing and convenient service at your home or workplace in Beaufort County, SC.' },
+  '/about': { title: 'Meet John | Legendary Mobile Detailing in Beaufort, SC', description: 'Meet John, born and raised in Beaufort, and learn why he started Legendary Mobile Detailing after 40 years in corporate life.' },
   '/service-area': { title: 'Mobile Detailing Service Area | Beaufort County, SC', description: 'Mobile car detailing in Beaufort, Port Royal and Lady’s Island, South Carolina. See where Legendary Mobile Detailing comes to you.' },
   '/gallery': { title: 'Before & After Detailing Gallery | Legendary Mobile Detailing', description: 'See before and after mobile detailing transformations. Browse interior and exterior details from Legendary Mobile Detailing in Beaufort County, SC.' },
   '/quote': { title: 'Request a Detailing Quote | Beaufort, SC | Legendary', description: 'Contact Legendary Mobile Detailing for an interior, exterior or complete detail quote in Beaufort, Port Royal and Lady’s Island, SC.' },
@@ -69,7 +69,7 @@ function PageMeta({ path }: { path: string }) {
 
 function Header({ path }: { path: string }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const links = [['/services', 'Services & pricing'], ['/gallery', 'Gallery'], ['/about', 'Our approach'], ['/service-area', 'Service area']]
+  const links = [['/services', 'Services & pricing'], ['/gallery', 'Gallery'], ['/about', 'About John'], ['/service-area', 'Service area']]
   return <>
     <div className="announcement"><span className="announcement-star">✳</span> Mobile detailing in Beaufort, Port Royal &amp; Lady’s Island <a href="/services">View pricing <Arrow /></a></div>
     <header className="header">
@@ -84,7 +84,7 @@ function Header({ path }: { path: string }) {
 }
 
 function Footer() {
-  return <footer className="footer"><a href="/" className="brand footer-brand"><img className="brand-logo" src="/legendary-mobile-detailing-logo.png" alt="Legendary Mobile Detailing" /></a><span>Mobile detailing in Beaufort, SC.</span><div className="footer-links"><a href="/services">Services &amp; pricing</a><a href="/gallery">Gallery</a><a href="/service-area">Service area</a><a href="/quote">Request a quote</a></div><small className="copyright">© 2026 Legendary Mobile Detailing</small></footer>
+  return <footer className="footer"><a href="/" className="brand footer-brand"><img className="brand-logo" src="/legendary-mobile-detailing-logo.png" alt="Legendary Mobile Detailing" /></a><span>Mobile detailing in Beaufort, SC.</span><div className="footer-links"><a href="/services">Services &amp; pricing</a><a href="/gallery">Gallery</a><a href="/about">About John</a><a href="/service-area">Service area</a><a href="/quote">Request a quote</a></div><small className="copyright">© 2026 Legendary Mobile Detailing</small></footer>
 }
 
 function Hero() {
@@ -93,18 +93,6 @@ function Hero() {
     <div className="hero-content"><div className="eyebrow"><span /> MOBILE AUTO DETAILING · BEAUFORT, SC</div><h1>Good as new.<br /><em>Feels like yours.</em></h1><p>Mobile car detailing in Beaufort, Port Royal and Lady’s Island, South Carolina. Thoughtful interior and exterior care, brought to your driveway.</p><div className="hero-actions"><a className="button button-accent" href="/services">Explore packages <Arrow /></a><a href="/service-area" className="text-link">Where we work <span>↓</span></a></div><div className="hero-proof"><div className="avatar-stack"><span>✳</span></div><div><strong>Thoughtful care, made convenient.</strong><small>Serving Beaufort County’s Sea Islands</small></div></div></div>
     <div className="hero-badge"><span>✳</span><strong>WE COME<br />TO YOU</strong><small>YOU KEEP YOUR DAY</small></div><div className="hero-caption">THOUGHTFUL CARE, DOWN TO THE LAST DETAIL <span>BEAUFORT COUNTY, SOUTH CAROLINA</span></div>
   </section>
-}
-
-function TrustStrip() {
-  return <section className="trust-strip"><div><span className="trust-icon">✳</span><strong>We come to you</strong><small>Home, office, wherever</small></div><div><span className="trust-icon">◷</span><strong>Clear, size-based pricing</strong><small>Choose the right fit</small></div><div><span className="trust-icon">✧</span><strong>Care in every detail</strong><small>Thoughtful by design</small></div><div><span className="trust-icon">♡</span><strong>Local service</strong><small>Beaufort, Port Royal &amp; Lady’s Island</small></div></section>
-}
-
-function ApproachFeature() {
-  return <section className="approach"><div className="approach-photo"><div className="photo-label">THE LITTLE THINGS<br />MAKE THE DIFFERENCE</div></div><div className="approach-copy"><div className="eyebrow"><span /> A BETTER KIND OF DETAIL</div><h2>Care you can<br /><em>feel.</em></h2><p className="approach-lede">A clean car should feel like a deep breath. No rush, no shortcuts, no mystery add-ons. Just careful work, clear pricing and pride in the finish.</p><ApproachPoints /><a className="text-link light-link" href="/about">Our approach <Arrow /></a></div></section>
-}
-
-function ApproachPoints() {
-  return <div className="approach-points"><div><span>01</span><p><strong>Made for your day</strong><small>Mobile detailing at your home or workplace.</small></p></div><div><span>02</span><p><strong>Thoughtful by nature</strong><small>Careful hands and products selected for your vehicle.</small></p></div><div><span>03</span><p><strong>Good from start to finish</strong><small>We explain condition-based add-ons before work begins.</small></p></div></div>
 }
 
 function ServicesPage() {
@@ -172,16 +160,25 @@ function GalleryGrid() {
   </article>)}</div>
 }
 
-function GalleryFeature() {
-  return <section className="gallery-feature section"><div className="gallery-heading"><div><div className="eyebrow dark"><span /> BEFORE &amp; AFTER</div><h2>Care that shows<br /><em>in every detail.</em></h2></div><p>Hover or tap a photo to compare each finish. We’ll add real transformations here as photos are collected.</p></div><GalleryGrid /><a className="button button-accent gallery-more" href="/gallery">View the full gallery <Arrow /></a></section>
-}
-
 function GalleryPage() {
   return <main className="page-main"><section className="gallery-page section"><div className="eyebrow dark"><span /> THE FINISH, SIDE BY SIDE</div><h1 className="page-title">A little care.<br /><em>A big difference.</em></h1><p className="gallery-lede">Compare each vehicle before and after its detail. Add photo pairs to the gallery_photos folder and they’ll appear here automatically.</p><GalleryGrid /><p className="gallery-back"><a className="text-link" href="/services">Explore our detailing packages <Arrow /></a></p></section></main>
 }
 
 function HomePage() {
-  return <main><Hero /><TrustStrip /><section className="home-intro section"><div className="eyebrow dark"><span /> MOBILE DETAILING, MADE SIMPLE</div><h2>Thoughtful care<br /><em>comes to you.</em></h2><p>From a fresh cabin to a protected exterior, get a detail that fits your car and your day. Serving Beaufort, Port Royal and Lady’s Island.</p><a className="button button-accent" href="/services">See services &amp; pricing <Arrow /></a><div className="home-links"><a href="/about">Get to know our approach <Arrow /></a><a href="/service-area">Explore our service area <Arrow /></a></div></section><GalleryFeature /><ApproachFeature /></main>
+  return <main><Hero /></main>
+}
+
+function AboutPage() {
+  return <main className="page-main"><section className="about-story section">
+    <div className="eyebrow dark"><span /> A BEAUFORT-RAISED DETAILER</div>
+    <h1 className="page-title">A new chapter,<br /><em>right at home.</em></h1>
+    <p className="about-lede">I’m John. I was born and raised in Beaufort, and after 40 years in corporate life, I recently stepped away to build a business of my own: Legendary Mobile Detailing.</p>
+    <div className="about-story-grid">
+      <article><span className="about-kicker">WHY DETAILING</span><h2>Work you can<br /><em>see and feel.</em></h2><p>I’ve always been someone who notices the details. What I love about detailing is the immediate gratification: you put in the care, step back, and see the results right away. Every clean surface and finished panel tells you the work mattered.</p></article>
+      <aside className="about-family"><span className="about-kicker">MY TOUGHEST CUSTOMER</span><h2>My oldest daughter.</h2><p>She has three kids who love to get food and sand all over the car. I take care of her every time—and that keeps me ready for the everyday messes Beaufort drivers bring me.</p><span className="family-mark" aria-hidden="true">✳</span></aside>
+    </div>
+    <section className="about-local"><div className="eyebrow"><span /> BUILT HERE, ONE DETAIL AT A TIME</div><h2>Local roots.<br /><em>Word-of-mouth growth.</em></h2><p>Legendary is a brand-new business, and I’m starting with the neighbors and drivers who give me a chance. My goal is to earn loyal customers through careful work, then grow locally and organically through word of mouth.</p><div className="about-actions"><a className="button button-accent" href="/services">Explore services <Arrow /></a><a className="button about-quote" href="/quote">Talk with John <Arrow /></a></div></section>
+  </section></main>
 }
 
 function NotFoundPage() {
@@ -190,5 +187,5 @@ function NotFoundPage() {
 
 export default function App() {
   const page = pageMeta[currentPath] ? currentPath : ''
-  return <><PageMeta path={page} /><Header path={page} />{page === '/' ? <HomePage /> : page === '/services' ? <ServicesPage /> : page === '/about' ? <main className="page-main"><ApproachFeature /><section className="about-copy section"><div className="eyebrow dark"><span /> LEGENDARY MOBILE DETAILING</div><h1 className="page-title">Care you can<br /><em>feel.</em></h1><p>We bring thoughtful interior and exterior detailing to your driveway or workplace around Beaufort County. Our approach is simple: careful work, clear prices, and no surprise add-ons.</p><a className="button button-accent" href="/quote">Request a detail <Arrow /></a></section></main> : page === '/service-area' ? <ServiceAreaPage /> : page === '/gallery' ? <GalleryPage /> : page === '/quote' ? <BookingPage /> : <NotFoundPage />}<Footer /></>
+  return <><PageMeta path={page} /><Header path={page} />{page === '/' ? <HomePage /> : page === '/services' ? <ServicesPage /> : page === '/about' ? <AboutPage /> : page === '/service-area' ? <ServiceAreaPage /> : page === '/gallery' ? <GalleryPage /> : page === '/quote' ? <BookingPage /> : <NotFoundPage />}<Footer /></>
 }
