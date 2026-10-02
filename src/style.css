@@ -9,11 +9,11 @@
 .vehicle-key{padding:14px 17px;background:#eeeae2;color:#586169;font-size:10px;line-height:1.7;margin:0 0 40px;border-left:2px solid var(--accent)}
 .price-category{margin-top:48px}
 .price-category-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:19px}
-.price-category-heading h3{font:700 25px/1.2 Manrope;letter-spacing:-.04em;margin:0 0 7px}
+.price-category-heading h2{font:700 25px/1.2 Manrope;letter-spacing:-.04em;margin:0 0 7px}
 .price-category-heading p{font-size:11px;color:#737a80;line-height:1.7;margin:0;max-width:490px}
 .tier-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .tier-card{background:#eeebe4;padding:23px 24px 21px;display:flex;flex-direction:column;min-width:0}
-.tier-card-heading h4{font:700 19px Manrope;letter-spacing:-.035em;margin:0 0 6px}
+.tier-card-heading h3{font:700 19px Manrope;letter-spacing:-.035em;margin:0 0 6px}
 .tier-card-heading p{font-size:10px;line-height:1.65;color:#70777d;min-height:33px;margin:0}
 .tier-includes{padding:16px 0 14px;margin:0;list-style:none;flex:1;border-bottom:1px solid #d8d1c8}
 .tier-includes li{position:relative;padding-left:15px;font-size:10px;line-height:1.65;color:#4d5962;margin:4px 0}
@@ -27,7 +27,7 @@
 .pricing-note strong{color:var(--ink)}
 .addons{margin-top:60px}
 .addons .price-category-heading{margin-bottom:21px}
-.addons .price-category-heading h3{margin-top:13px}
+.addons .price-category-heading h2{margin-top:13px}
 .addon-table-wrap{overflow-x:auto;background:#eeebe4}
 .addon-table{border-collapse:collapse;width:100%;min-width:700px;text-align:left}
 .addon-table th,.addon-table td{padding:13px 15px;border-bottom:1px solid #d8d1c8}
@@ -43,7 +43,7 @@
 .area-lede{max-width:710px;font-size:12px;line-height:1.9;color:#667078;margin:18px 0 29px}
 .area-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .area-grid article{background:var(--cream);padding:20px 21px}
-.area-grid h3{font:700 15px Manrope;margin:0 0 8px}
+.area-grid h2{font:700 15px Manrope;margin:0 0 8px}
 .area-grid p{font-size:10px;line-height:1.7;color:#6c757c;margin:0}
 .faq-list{margin-top:24px;border-top:1px solid #d8d1c8}
 .faq-list details{border-bottom:1px solid #d8d1c8;padding:15px 2px}
@@ -55,6 +55,7 @@
 .booking p a{text-decoration:underline;text-underline-offset:3px;color:#f1cfb6}
 .booking-actions{display:flex;justify-content:center;gap:12px;position:relative;margin:0 auto}
 .booking-email{border:1px solid rgba(255,255,255,.45);color:white}
+.page-main{min-height:58vh}.page-title{font-size:clamp(42px,5vw,62px);line-height:1.05}.home-intro{background:#eeeae2}.home-intro>p,.about-copy>p{max-width:520px;font-size:13px;line-height:1.85;color:#667078;margin:18px 0 24px}.home-links{display:flex;gap:26px;flex-wrap:wrap;margin-top:29px}.home-links a{font-size:10px;font-weight:700;border-bottom:1px solid #b8aa9d;padding-bottom:5px}.home-links a span{margin-left:7px;color:var(--accent)}.about-copy{background:var(--cream)}.booking-page{min-height:62vh;display:flex;flex-direction:column;align-items:center;justify-content:center}.booking-page .page-title{font-size:clamp(48px,6vw,70px)}.booking-page>p{max-width:540px;line-height:1.8}.not-found{min-height:58vh}.page-cta{margin:45px 0 0}.faq{margin-top:67px}.nav>a[aria-current="page"]:not(.nav-cta){color:var(--accent);text-decoration:underline;text-underline-offset:6px}
 @media(max-width:760px){.header{padding:0 6%}.nav{gap:20px}.section{padding-left:8%;padding-right:8%}.service-area h2,.faq h2{font-size:42px}}
-@media(max-width:620px){.announcement{gap:4px;padding:8px 5%;font-size:9px}.announcement a{margin:0}.tier-grid,.area-grid{grid-template-columns:1fr;gap:10px}.price-category{margin-top:38px}.tier-card{padding:20px}.tier-card-heading p{min-height:0}.vehicle-key{margin-bottom:31px}.addons{margin-top:45px}.area-grid article{padding:18px}.service-area h2,.faq h2{font-size:39px}.booking-actions{flex-direction:column;align-items:stretch;max-width:260px}.booking-actions .button{min-height:46px}.booking p{line-height:1.8}.nav{gap:0}.nav>a:not(.nav-cta){font-size:12px}}
+@media(max-width:620px){.announcement{gap:4px;padding:8px 5%;font-size:9px}.announcement a{margin:0}.tier-grid,.area-grid{grid-template-columns:1fr;gap:10px}.price-category{margin-top:38px}.tier-card{padding:20px}.tier-card-heading p{min-height:0}.vehicle-key{margin-bottom:31px}.addons{margin-top:45px}.area-grid article{padding:18px}.service-area h2,.faq h2{font-size:39px}.booking-actions{flex-direction:column;align-items:stretch;max-width:260px}.booking-actions .button{min-height:46px}.booking p{line-height:1.8}.nav{gap:0}.nav>a:not(.nav-cta){font-size:12px}.home-links{flex-direction:column;align-items:flex-start;gap:17px}}
 .brand-logo{display:block;width:154px;height:76px;object-fit:cover;object-position:center;mix-blend-mode:multiply}.footer .brand-logo{width:130px;height:64px}
