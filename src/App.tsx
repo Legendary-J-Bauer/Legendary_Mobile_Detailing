@@ -77,7 +77,7 @@ function Header({ path }: { path: string }) {
       <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}>{menuOpen ? '×' : '☰'}</button>
       <nav className={menuOpen ? 'nav nav-open' : 'nav'} aria-label="Main navigation">
         {links.map(([href, label]) => <a key={href} href={href} aria-current={path === href ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
-        <a className="nav-cta" href="/quote" onClick={() => setMenuOpen(false)}>Request a detail <Arrow /></a>
+        <a className="nav-cta" href="/quote" onClick={() => setMenuOpen(false)}>Request a quote <Arrow /></a>
       </nav>
     </header>
   </>
@@ -115,8 +115,56 @@ function ServiceAreaPage() {
   return <main className="page-main"><section className="service-area section"><div className="eyebrow dark"><span /> YOUR LOCAL MOBILE DETAILER</div><h1 className="page-title">Beaufort County,<br /><em>at your doorstep.</em></h1><p className="area-lede">Legendary Mobile Detailing brings car detailing to homes and workplaces in Beaufort, Port Royal and Lady’s Island, SC. Book an interior detail, exterior hand wash or complete vehicle reset without making a trip to a shop.</p><AreaContent /><p className="page-cta"><a className="button button-accent" href="/quote">Request a detail <Arrow /></a></p></section></main>
 }
 
-function BookingPage() {
-  return <main className="page-main"><section className="booking booking-page"><div className="booking-orb orb-one" /><div className="booking-orb orb-two" /><div className="eyebrow"><span /> THE NEXT STEP</div><h1 className="page-title">Ready for a<br /><em>fresh start?</em></h1><p>Call or text <a href="tel:+18034235698">(803) 423-5698</a> or email <a href="mailto:legendarydetailing843@gmail.com">legendarydetailing843@gmail.com</a> to request a detail in Beaufort, Port Royal or Lady’s Island.</p><div className="booking-actions"><a className="button button-accent" href="tel:+18034235698">Call or text <Arrow /></a><a className="button booking-email" href="mailto:legendarydetailing843@gmail.com?subject=Mobile%20detailing%20quote%20request">Email for a quote <Arrow /></a></div><small className="booking-footnote">Share your vehicle, service and preferred time when you get in touch.</small></section></main>
+function QuotePage() {
+  const [selectedServices, setSelectedServices] = useState<string[]>([])
+  const [photoNames, setPhotoNames] = useState<string[]>([])
+  const serviceOptions = ['Interior Refresh', 'Interior Deep Clean', 'Exterior Refresh', 'Exterior Detail & Protect', 'The Daily Driver (interior + exterior)', 'The Full Reset (interior + exterior)', 'Moderate sand removal', 'Heavy / packed-in sand removal', 'Pet hair removal', 'Stain extraction', 'Odor treatment', 'Headlight restoration', 'Bug, tar or sap removal']
+
+  function toggleService(service: string) {
+    setSelectedServices(current => current.includes(service) ? current.filter(item => item !== service) : [...current, service])
+  }
+
+  return <main className="page-main"><section className="quote-page section">
+    <div className="eyebrow dark"><span /> TELL US WHAT YOU NEED</div>
+    <h1 className="page-title">Request a<br /><em>detailing quote.</em></h1>
+    <p className="quote-lede">Share a few details about you, your vehicle and a time that works. Photos are optional, but they can help us understand the vehicle’s condition.</p>
+    <div className="quote-status" role="status"><strong>Online requests are not sending yet.</strong><span>The form is ready for the email connection. Until then, call or email John directly using the contact details alongside it.</span></div>
+    <div className="quote-columns">
+      <form className="quote-form" onSubmit={event => event.preventDefault()}>
+        <fieldset className="quote-fieldset"><legend>How can John reach you?</legend><div className="quote-fields">
+          <label className="quote-field"><span>Full name <b>*</b></span><input name="name" type="text" autoComplete="name" placeholder="Your name" required /></label>
+          <label className="quote-field"><span>Email address <b>*</b></span><input name="email" type="email" autoComplete="email" placeholder="you@example.com" required /></label>
+          <label className="quote-field"><span>Phone number <b>*</b></span><input name="phone" type="tel" autoComplete="tel" placeholder="(803) 555-0123" required /></label>
+          <label className="quote-field"><span>Preferred date <b>*</b></span><input name="preferredDate" type="date" required /></label>
+          <label className="quote-field"><span>Best time of day <b>*</b></span><select name="preferredTime" defaultValue="" required><option value="" disabled>Select a time</option><option>Morning (8 am–12 pm)</option><option>Afternoon (12 pm–4 pm)</option><option>Late afternoon (4 pm–6 pm)</option><option>Flexible</option></select></label>
+        </div></fieldset>
+
+        <fieldset className="quote-fieldset"><legend>Where is the vehicle?</legend><div className="quote-fields">
+          <label className="quote-field quote-field-wide"><span>Service address <b>*</b></span><input name="address" type="text" autoComplete="street-address" placeholder="Street address" required /></label>
+          <label className="quote-field"><span>City or area <b>*</b></span><input name="city" type="text" autoComplete="address-level2" placeholder="Beaufort, Port Royal, or Lady’s Island" required /></label>
+          <label className="quote-field"><span>ZIP code</span><input name="zip" type="text" inputMode="numeric" autoComplete="postal-code" placeholder="29902" /></label>
+        </div></fieldset>
+
+        <fieldset className="quote-fieldset"><legend>Tell us about the vehicle</legend><div className="quote-fields">
+          <label className="quote-field"><span>Year <b>*</b></span><input name="vehicleYear" type="number" min="1950" max={new Date().getFullYear()} placeholder="2022" required /></label>
+          <label className="quote-field"><span>Make <b>*</b></span><input name="vehicleMake" type="text" placeholder="Toyota" required /></label>
+          <label className="quote-field"><span>Model <b>*</b></span><input name="vehicleModel" type="text" placeholder="Camry" required /></label>
+          <label className="quote-field"><span>Vehicle size <b>*</b></span><select name="vehicleSize" defaultValue="" required><option value="" disabled>Select vehicle size</option><option>Sedan / coupe</option><option>Mid-size sedan / 2-row SUV</option><option>Large SUV / van</option><option>Other / not sure</option></select></label>
+        </div></fieldset>
+
+        <fieldset className="quote-fieldset"><legend>Which service(s) are you interested in?</legend><details className="service-picker"><summary>{selectedServices.length ? `${selectedServices.length} service${selectedServices.length === 1 ? '' : 's'} selected` : 'Choose one or more services'}</summary><div className="service-options">{serviceOptions.map(service => <label key={service}><input type="checkbox" checked={selectedServices.includes(service)} onChange={() => toggleService(service)} /><span>{service}</span></label>)}</div></details><small className="field-help">Select as many as you like. John will confirm the best package and any condition-based add-ons with you.</small></fieldset>
+
+        <fieldset className="quote-fieldset"><legend>Anything else we should know?</legend><label className="quote-field"><span>Notes <small>(optional)</small></span><textarea name="notes" rows={4} placeholder="Tell us about stains, sand, pet hair, or anything else you’d like cleaned." /></label></fieldset>
+
+        <fieldset className="quote-fieldset"><legend>Add photos <small>(optional)</small></legend><label className="quote-field file-field"><span>Choose vehicle photos</span><input name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={event => setPhotoNames(Array.from(event.target.files ?? [], file => file.name))} /><small>Photos can help us estimate sand, pet hair, stains, or other extra cleaning.</small></label>{photoNames.length > 0 && <p className="selected-files">{photoNames.length} photo{photoNames.length === 1 ? '' : 's'} selected: {photoNames.join(', ')}</p>}</fieldset>
+
+        <button className="button button-accent quote-submit" type="submit" disabled aria-describedby="quote-submit-note">Send quote request <Arrow /></button>
+        <p className="submit-note" id="quote-submit-note">Online sending will be enabled after the Resend email service and domain are connected.</p>
+      </form>
+
+      <aside className="quote-contact"><span className="about-kicker">NEED A QUOTE TODAY?</span><h2>Reach John<br /><em>directly.</em></h2><p>Online form delivery is being set up. Call, text, or email to request your detail in the meantime.</p><a href="tel:+18034235698">(803) 423-5698</a><a href="mailto:legendarydetailing843@gmail.com">legendarydetailing843@gmail.com</a><small>Serving Beaufort, Port Royal and Lady’s Island, SC.</small></aside>
+    </div>
+  </section></main>
 }
 
 const vehicleDetails: Record<string, { vehicle: string; service: string; detail: string }> = {
@@ -187,5 +235,5 @@ function NotFoundPage() {
 
 export default function App() {
   const page = pageMeta[currentPath] ? currentPath : ''
-  return <><PageMeta path={page} /><Header path={page} />{page === '/' ? <HomePage /> : page === '/services' ? <ServicesPage /> : page === '/about' ? <AboutPage /> : page === '/service-area' ? <ServiceAreaPage /> : page === '/gallery' ? <GalleryPage /> : page === '/quote' ? <BookingPage /> : <NotFoundPage />}<Footer /></>
+  return <><PageMeta path={page} /><Header path={page} />{page === '/' ? <HomePage /> : page === '/services' ? <ServicesPage /> : page === '/about' ? <AboutPage /> : page === '/service-area' ? <ServiceAreaPage /> : page === '/gallery' ? <GalleryPage /> : page === '/quote' ? <QuotePage /> : <NotFoundPage />}<Footer /></>
 }
